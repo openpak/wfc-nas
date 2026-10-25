@@ -1,0 +1,17 @@
+[Unit]
+Description=OpenPak wfc-nas
+After=openpak-postgres.service
+
+[Container]
+ContainerName=openpak-wfc-nas
+Image=ghcr.io/openpak/wfc-nas:latest
+Network=openpak.network
+EnvironmentFile=%h/openpak/deploy/wfc-split/wfc-nas.env
+Volume=%h/openpak/deploy/wfc-split/token.key:/keys/wfc-token.key:ro,U
+Volume=openpak-wfc-payload:/app/payload
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
