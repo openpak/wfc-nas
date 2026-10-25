@@ -60,8 +60,6 @@ func StartServer(reload bool) {
 	authMux.HandleFunc("/ac", handleAuthAccountEndpoint)
 	authMux.HandleFunc("/pr", handleAuthProfanityEndpoint)
 
-	dlsMux.HandleFunc("/download", handleDownloadEndpoint)
-
 	if payloadServerAddress != "" {
 		// Forward the request to the payload server
 		authMux.HandleFunc("/payload", forwardPayloadRequest)

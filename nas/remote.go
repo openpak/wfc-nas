@@ -8,16 +8,19 @@ import (
 
 func registerRemotes() {
 	key := service.Key()
-	content, err := service.Proxy(os.Getenv("WFC_CONTENT_URL"), key)
-	if err != nil {
-		panic(err)
+	for _, v := range []struct {
+		mux *http.ServeMux
+		env string
+	}{{sakeMux, "WFC_SAKE_URL"}, {raceMux, "WFC_RACE_URL"}, {gamestatsMux, "WFC_GAMESTATS_URL"}, {dlsMux, "WFC_DLS_URL"}} {
+		proxy, e := service.Proxy(os.Getenv(v.env), key)
+		if e != nil {
+			panic(e)
+		}
+		v.mux.Handle("/", proxy)
 	}
-	runtime, err := service.Proxy(os.Getenv("WFC_RUNTIME_URL"), key)
-	if err != nil {
-		panic(err)
+	api, e := service.Proxy(os.Getenv("WFC_API_URL"), key)
+	if e != nil {
+		panic(e)
 	}
-	sakeMux.Handle("/", content)
-	raceMux.Handle("/", content)
-	gamestatsMux.Handle("/", runtime)
-	http.DefaultServeMux.Handle("/api/", runtime)
+	http.DefaultServeMux.Handle("/api/", api)
 }

@@ -56,6 +56,7 @@ golang.org/x/text/width
 ## explicit; go 1.25.0
 openpak/wfc-common/common
 openpak/wfc-common/database
+openpak/wfc-common/dwc
 openpak/wfc-common/filter
 openpak/wfc-common/logging
 openpak/wfc-common/service

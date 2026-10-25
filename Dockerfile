@@ -9,7 +9,6 @@ RUN apk add --no-cache ca-certificates && addgroup -S app && adduser -S -G app a
 WORKDIR /app
 COPY --from=build /out/wfc-nas /usr/local/bin/wwfc
 COPY --chown=app:app config.template.xml entrypoint.sh game_list.tsv motd.txt ./
-COPY --chown=app:app dlc ./dlc
 RUN chmod +x entrypoint.sh && mkdir -p /app/logs && chown -R app:app /app
 USER app
 EXPOSE 20120
