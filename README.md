@@ -1,25 +1,38 @@
-# wfc-nas
+# Wii/DS NAS Server
 
-Independent Wii/DS NAS authentication and native HTTP routing, extracted from nn-wfc.
-Preserves the native auth codec, duplicate Host handling, connection-test pages,
-profanity checks and operator-mounted payload assets. AGPL-3.0 (WiiLink WFC).
+OpenPak's Wii/DS NAS Server.
 
-Serves the existing WFC HTTP front door on WFC_NAS_PORT (default 20120).
-Forwards SAKE/race hosts to WFC_SAKE_URL / WFC_RACE_URL and gamestats/API routes to
-WFC_GAMESTATS_URL / WFC_API_URL, with an authenticated internal request header. Each upstream
-must be an HTTP origin without path/query/credentials. Host and native body/reply
-are preserved; upstream failure returns 503.
+| | |
+| --- | --- |
+| Network | Wii, DS |
+| Role | NAS authentication and native HTTP routing: the WFC HTTP front door for Wii and DS |
+| Depends on | [`wfc-sake`](https://github.com/openpak/wfc-sake), [`wfc-race`](https://github.com/openpak/wfc-race), [`wfc-gamestats`](https://github.com/openpak/wfc-gamestats), [`wfc-api`](https://github.com/openpak/wfc-api), [`wfc-dls`](https://github.com/openpak/wfc-dls), shared WFC database (`WFC_DB_ADDRESS`) |
+| Image | `ghcr.io/openpak/wfc-nas` |
+| Based on | [WiiLink WFC](https://github.com/WiiLink24/wfc-server) (AGPL-3.0) |
+| Licence | AGPL-3.0-only |
 
-Required: WFC_DB_USER, WFC_DB_PASSWORD, WFC_DB_ADDRESS, WFC_API_SECRET,
-WFC_TOKEN_KEY_FILE (shared binary key >=32 bytes), WFC_INTERNAL_KEY (>=32 bytes),
-WFC_SAKE_URL / WFC_RACE_URL and WFC_GAMESTATS_URL / WFC_API_URL. Optional WFC_DB_NAME=wwfc, WFC_LOG_LEVEL=4.
-Mount the existing payload volume at /app/payload. The wfc-dls owner mounts DLC
-at /app/dlc.
-The shared database schema and account IDs remain unchanged.
+## What it serves
 
-Build/test independently: `GOWORK=off go test -mod=vendor ./...`,
-`GOWORK=off go vet -mod=vendor ./...`, `docker build -t wfc-nas .`.
-Shared code is vendored from sibling wfc-common. Image ghcr.io/openpak/wfc-nas.
-Read [the full split guide](https://github.com/openpak/wfc-common/blob/main/docs/service-split.md) before deploying.
+| Endpoint | What |
+| --- | --- |
+| HTTP front door on `WFC_NAS_PORT` (default 20120) | Native auth and HTTP routing for Wii and DS |
+| SAKE and race hosts | Forwarded to `WFC_SAKE_URL` / `WFC_RACE_URL` |
+| Gamestats and API routes | Forwarded to `WFC_GAMESTATS_URL` / `WFC_API_URL` |
 
-DLS1 now belongs to wfc-dls; configure WFC_DLS_URL. NAS no longer carries DLC data.
+## Build
+
+```sh
+docker build -t wfc-nas .
+GOWORK=off go test -mod=vendor ./...
+```
+
+## Docs
+
+- [Protocol](docs/protocol.md)
+- [Evidence](docs/evidence.md)
+- [Deploy](docs/deploy.md)
+- [Notes](docs/notes.md)
+
+## Licence
+
+AGPL-3.0-only. See [LICENSE](LICENSE).
