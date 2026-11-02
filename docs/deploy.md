@@ -11,3 +11,7 @@ Build/test independently: `GOWORK=off go test -mod=vendor ./...`,
 `GOWORK=off go vet -mod=vendor ./...`, `docker build -t wfc-nas .`.
 Shared code is vendored from sibling wfc-common. Image ghcr.io/openpak/wfc-nas.
 Read [the full split guide](https://github.com/openpak/wfc-common/blob/main/docs/service-split.md) before deploying.
+
+## DLS
+
+Set `WFC_DLS_URL` to the wfc-dls service.

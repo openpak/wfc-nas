@@ -30,7 +30,7 @@ GOWORK=off go test -mod=vendor ./...
 
 - [Protocol](docs/protocol.md)
 - [Deploy](docs/deploy.md)
-- [Notes](docs/notes.md)
+- [Provenance](docs/provenance.md)
 
 ## Licence
 
