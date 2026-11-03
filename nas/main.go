@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"openpak/wfc-common/common"
+	"openpak/wfc-common/httplog"
 	"openpak/wfc-common/logging"
 	"regexp"
 	"strconv"
@@ -52,7 +53,7 @@ func StartServer(reload bool) {
 
 	server = &http.Server{
 		Addr:        address,
-		Handler:     http.HandlerFunc(handleRequest),
+		Handler:     httplog.Middleware(http.HandlerFunc(handleRequest)),
 		IdleTimeout: 20 * time.Second,
 		ReadTimeout: 10 * time.Second,
 	}

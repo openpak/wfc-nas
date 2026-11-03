@@ -58,6 +58,7 @@ openpak/wfc-common/common
 openpak/wfc-common/database
 openpak/wfc-common/dwc
 openpak/wfc-common/filter
+openpak/wfc-common/httplog
 openpak/wfc-common/logging
 openpak/wfc-common/service
 # openpak/wfc-common => ../wfc-common
