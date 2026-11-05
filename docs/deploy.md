@@ -15,3 +15,11 @@ Read [the full split guide](https://github.com/openpak/wfc-common/blob/main/docs
 ## DLS
 
 Set `WFC_DLS_URL` to the wfc-dls service.
+
+## Link-first (prds#139)
+
+`WFC_LINK_FIRST=1` refuses unlinked consoles at NAS login with their link number. It needs the
+WFC database settings (`WFC_DB_*`, already in the shared env) and optionally `WFC_CORE_ADDRESS`/
+`WFC_CORE_KEY` (heal a half-done approval). `WFC_NET_TAG_KEY` (else `WFC_INTERNAL_KEY`) must be
+the same as wfc-api's.
+

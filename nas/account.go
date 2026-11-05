@@ -37,6 +37,9 @@ func handleAuthAccountEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	if actionFunc, exists := accountActions[strings.ToLower(action)]; exists {
 		reply := actionFunc(moduleName, fields)
+		if strings.EqualFold(action, "login") {
+			gateLogin(r, moduleName, fields, reply)
+		}
 		writeAuthResponse(w, reply)
 		return
 	}

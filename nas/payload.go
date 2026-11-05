@@ -16,6 +16,7 @@ import (
 	"openpak/wfc-common/logging"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/logrusorgru/aurora/v3"
@@ -29,6 +30,11 @@ func downloadStage1(w http.ResponseWriter, r *http.Request) {
 		path = "payload/stage1v" + strconv.Itoa(int(ver)) + ".bin"
 	}
 	dat, err := os.ReadFile(path)
+	if errors.Is(err, os.ErrNotExist) && ver != 0 {
+		// The wii-patcher releases ship one stage1.bin for the /w1 their patch asks for (the
+		// patch pins its md5, so a mismatched file is refused by the console anyway).
+		dat, err = os.ReadFile("payload/stage1.bin")
+	}
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			replyHTTPError(w, http.StatusNotFound, "404 Not Found")
@@ -176,7 +182,13 @@ func handlePayloadRequest(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// Generate the salt hash
-		saltHashData := "payload?g=" + query["g"][0] + "&s=" + query["s"][0]
+		// The console hashes its whole query up to "&h=" ("d=<stage1 build>&g=...&s=..." since
+		// the wii-patcher v0.1.2 payloads; "g=...&s=..." before).
+		rawQuery := u.RawQuery
+		if i := strings.Index(rawQuery, "&h="); i >= 0 {
+			rawQuery = rawQuery[:i]
+		}
+		saltHashData := "payload?" + rawQuery
 
 		hashCtx := sha256.New()
 		_, err = hashCtx.Write([]byte(saltHashData))

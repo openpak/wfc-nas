@@ -46,6 +46,8 @@ func StartServer(reload bool) {
 		go setupTLS(config)
 	}
 
+	startLinkGate(config)
+
 	err := CacheProfanityFile()
 	if err != nil {
 		logging.Info("NAS", err)
