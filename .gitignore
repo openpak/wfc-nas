@@ -1,6 +1,6 @@
 .env
 config.xml
-state/
+/state/
 logs/
 *.log
 /wfc-nas
