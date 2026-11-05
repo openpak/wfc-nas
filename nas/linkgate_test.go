@@ -41,7 +41,7 @@ func TestGateLogin(t *testing.T) {
 
 	ok := func() map[string]string { return map[string]string{"returncd": "001", "token": "t", "challenge": "c"} }
 	ds := map[string][]byte{"gamecd": []byte("AMCE"), "userid": []byte(strconv.Itoa(uid)), "unitcd": []byte("0"),
-		"gsbrcd": []byte("AMCE"), "devname": []byte{'D', 0, 'S', 0}}
+		"gsbrcd": []byte("AMCE"), "devname": []byte{'D', 0, 'S', 0}, "ingamesn": []byte{}}
 	r := httptest.NewRequest("POST", "/ac", nil)
 	r.RemoteAddr = "10.89.2.96:5000"
 	r.Header.Set("X-Real-Ip", "198.51.100.9")

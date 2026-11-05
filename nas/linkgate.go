@@ -117,11 +117,14 @@ func gateLogin(r *http.Request, moduleName string, fields map[string][]byte, rep
 	if u := fields["unitcd"]; len(u) == 1 && u[0] == '0' {
 		unit, order = database.UnitDS, binary.LittleEndian
 	}
+	// The name the player can read on the console: the in-game name, else (older DS games send
+	// it empty or not at all) the DS user name.
 	name := ""
 	if v, ok := fields["ingamesn"]; ok {
-		name = common.UTF16Decode(v, order)
-	} else if v, ok := fields["devname"]; ok {
-		name = common.UTF16Decode(v, order)
+		name = strings.TrimSpace(strings.TrimRight(common.UTF16Decode(v, order), "\x00"))
+	}
+	if v, ok := fields["devname"]; ok && name == "" {
+		name = strings.TrimSpace(strings.TrimRight(common.UTF16Decode(v, order), "\x00"))
 	}
 	gsbrcd := string(fields["gsbrcd"])
 	if gsbrcd == "" && len(gamecd) >= 3 {

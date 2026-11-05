@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.3.2 - 2026-11-05
+
+- Link gate: a DS that sends an empty in-game name (Mario Kart DS) is recorded under its DS user name, so the player can claim the number by name from another network.
+
 ## v0.3.1 - 2026-11-05
 
 - Fix: `.gitignore` ignored every `state/` directory, so a vendored gRPC package was missing and CI could not build v0.3.0. Only the root `state/` is ignored now.
